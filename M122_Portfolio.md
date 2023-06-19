@@ -60,6 +60,29 @@ Im schritt: ```#Folder names and variables for the next step``` werden die Paths
 
 Danach wird die Datei geprüft auf die Endung, welches dann die Entscheidung beinflusst, in welchen Ordner die Datei kommt. Als Ordner gibt es die Optionen: Aufträge, Lösungen, Präsentationen und Weitere Dateien. Wie man oben sieht, kommen ```.docx``` Dateien in den *Aufträge* Ordner, wenn die .docx mit ```_L.docx``` aufhört, dann kommen diese in den *Lösungen* Ordner. Wenn die Datei ```.pptx``` heisst kommt diese in den *Präsentationen* Ordner und alles restliche kommt in den *Weitere Dateien* Ordner.
 
+Ich habe dan den Code erweitert, indem ich einen Filter einprogramiere, der nur gewisse Dateien auswählt und 
+```ps
+$files = Get-ChildItem -Path $downloadPath -File | Where-Object { $_.Name -like 'LA_*' -or $_.Name -like 'PR_*' -or $_.Name -like 'BL_*'}
+```
+
+Dateien, die zum Lernattelier gehören so einsortiert, wie es sein soll.
+```ps
+# Extract the number after "LA_" from the file name
+    [int]$number = ($file.Name -split '_')[1]
+    # Check if the number is greater than 1000
+    if ($number -gt 1000) {
+        # Define the base directory for "IMS Lernattelier"
+        $baseDir = Join-Path -Path $destinationPath -ChildPath "IMS Lernattelier"
+        $baseDir = Join-Path -Path $baseDir -ChildPath "M$number"
+    } else {
+        # Define the base directory for "M" folders
+        $baseDir = Join-Path -Path $destinationPath -ChildPath "M$number"
+    }
+```
+
+
+
+
 
 ```ps
  $logFile = "C:\Users\timog\OneDrive - BBBaden\M122\GoedertierTimo_LB_M122_2021-V3\fileMovement.log"

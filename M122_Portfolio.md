@@ -10,12 +10,13 @@ Wie gesagt geht es in diesem Projekt darum
 
 
 
-```
+```ps
  $logFile = "C:\Users\timog\OneDrive - BBBaden\M122\GoedertierTimo_LB_M122_2021-V3\fileMovement.log"
  $currentDate = Get-Date -Format "dd.MM.yyyy"
  $logMessage = "$currentDate - File $($file.Name) was moved to $destinationFolder"
  Add-Content -Path $logFile -Value $logMessage
 ```
+Hier habe ich noch einen kleinen Zusatz gemacht, in dem es eine Linie erstellt für jede einsortierte Datei, in der Datei fileMovement.log.
 
 ## Was habe ich in diesem Auftrag gelernt?
 

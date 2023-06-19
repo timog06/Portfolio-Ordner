@@ -21,8 +21,8 @@ Hier habe ich noch einen kleinen Zusatz gemacht, in dem es eine Linie erstellt f
 ## Was habe ich in diesem Auftrag gelernt?
 
 
-## Was das Programm zeigt:
-
+## Was das Programm zeigt
+Das Programm macht keine Ausgaben, nur eine Log Message für jede einsortierte Datei.
 
 ## Selbstreflexion
 

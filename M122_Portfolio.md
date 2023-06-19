@@ -74,6 +74,81 @@ Ich habe gelernt, wie man Dateien, mit Powershell Befehlen, bewegt. Dies geht mi
 ```ps
  Move-Item -Path <Dateiname> -Destination <Zielort>
 ```
+### Finales Produkt:
+```ps
+# Define the destination folder
+$destinationPath = "C:\Users\timog\OneDrive - BBBaden"
+$downloadPath = "C:\Users\timog\Downloads"
+
+# Define the files
+$files = Get-ChildItem -Path $downloadPath -File | Where-Object { $_.Name -like 'LA_*' -or $_.Name -like 'PR_*' -or $_.Name -like 'BL_*'}
+
+# Do it for each file
+foreach ($file in $files) {
+    # Extract the number after "LA_" from the file name
+    [int]$number = ($file.Name -split '_')[1]
+    # Check if the number is greater than 1000
+    if ($number -gt 1000) {
+        # Define the base directory for "IMS Lernattelier"
+        $baseDir = Join-Path -Path $destinationPath -ChildPath "IMS Lernattelier"
+        $baseDir = Join-Path -Path $baseDir -ChildPath "M$number"
+    } else {
+        # Define the base directory for "M" folders
+        $baseDir = Join-Path -Path $destinationPath -ChildPath "M$number"
+    }
+
+    #Folder names and variables for the next step
+    $aufträgeDir = Join-Path -Path $baseDir -ChildPath "Aufträge"
+    $präsentationenDir = Join-Path -Path $baseDir -ChildPath "Präsentationen"
+    $lösungenDir = Join-Path -Path $baseDir -ChildPath "Lösungen"
+    $weitereDateienDir = Join-Path -Path $baseDir -ChildPath "Weitere Dateien"
+
+    # Create folders if they don't exist
+    if (!(Test-Path -Path $baseDir)) {
+        New-Item -ItemType Directory -Path $baseDir | Out-Null
+    }
+    if (!(Test-Path -Path $aufträgeDir)) {
+        New-Item -ItemType Directory -Path $aufträgeDir | Out-Null
+    }
+    if (!(Test-Path -Path $präsentationenDir)) {
+        New-Item -ItemType Directory -Path $präsentationenDir | Out-Null
+    }
+    if (!(Test-Path -Path $lösungenDir)) {
+        New-Item -ItemType Directory -Path $lösungenDir | Out-Null
+    }
+    if (!(Test-Path -Path $weitereDateienDir)) {
+        New-Item -ItemType Directory -Path $weitereDateienDir | Out-Null
+    }
+
+    # Check the file extension and move it to the appropriate destination
+    switch ($file.Extension) {
+        '.docx' {
+            if ($file.Name -like '*_L.docx') {
+                Move-Item -Path $file.FullName -Destination $lösungenDir
+                $destinationFolder = $lösungenDir
+            } else {
+                Move-Item -Path $file.FullName -Destination $aufträgeDir
+                $destinationFolder = $aufträgeDir
+            }
+        }
+        '.pptx' {
+            Move-Item -Path $file.FullName -Destination $präsentationenDir
+            $destinationFolder = $präsentationenDir
+        }
+        default {
+            Move-Item -Path $file.FullName -Destination $weitereDateienDir
+            $destinationFolder = $weitereDateienDir
+        }
+    }
+
+    # Log the file movement
+    $logFile = "C:\Users\timog\OneDrive - BBBaden\M122\GoedertierTimo_LB_M122_2021-V3\fileMovement.log"
+    $currentDate = Get-Date -Format "dd.MM.yyyy"
+    $logMessage = "$currentDate - File $($file.Name) was moved to $destinationFolder"
+    Add-Content -Path $logFile -Value $logMessage
+}
+
+```
 
 ## Was das Programm zeigt
 Das Programm macht keine Ausgaben, nur eine Log Message für jede einsortierte Datei.

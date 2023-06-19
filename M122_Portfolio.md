@@ -1,5 +1,5 @@
 # Datei-Sortierungs Skript
-Ich habe mir gedacht, dass es sehr praktisch wäre ein Skript zu haben, welches mir automatisch Dateien einsortiert.
+Ich habe mir gedacht, dass es sehr praktisch wäre ein Skript zu haben, welches mir automatisch die Dateien einsortiert, die ich von Moodle herunterlade. Dies bedeutet, dass das Skript die gewollten Dateien erkennt, in einen bestimmten Ordner sortiert und dies natürlich ohne Fehler.
 
 ## Inhalt
 

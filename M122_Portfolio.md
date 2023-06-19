@@ -2,12 +2,63 @@
 $In diesem Projekt geht es darum ein Skript zu erstellen, welches etwas auf dem Laptop automatisiert. Also habe ich mir gedacht, dass es sehr praktisch wäre ein Skript zu haben, welches mir automatisch die Dateien einsortiert, die ich von Moodle herunterlade. Dies bedeutet, dass das Skript die gewollten Dateien erkennt, in einen bestimmten Ordner sortiert und dies natürlich ohne Fehler.
 
 ## Inhalt
-Wie gesagt geht es in diesem Projekt darum 
+Wie gesagt habe ich in diesem Projekt einen Datei-Sortier Skript gemacht. Natürlich musste ich mich zuerst informieren, um überhaupt zu wissen, wie ich das mache. Das erste, welches ich gemacht habe, war GPT zu fragen, wie er es machen würde. Da habe ich gesehen, welche Befehle er benutzt. Um dies dann zu erweitern habe ich im Internet nachgeschaut wie dies geht.
 
+Als ich dann den ersten Teil fertig hatte sah es so aus:
+```ps
+# Define the destination folder
+$destinationPath = "C:\Users\timog\OneDrive - BBBaden"
 
+# Do it for each file
+foreach ($file in $files) {
 
+    #Folder names and variables for the next step
+    $aufträgeDir = Join-Path -Path $baseDir -ChildPath "Aufträge"
+    $präsentationenDir = Join-Path -Path $baseDir -ChildPath "Präsentationen"
+    $lösungenDir = Join-Path -Path $baseDir -ChildPath "Lösungen"
+    $weitereDateienDir = Join-Path -Path $baseDir -ChildPath "Weitere Dateien"
 
+    # Create folders if they don't exist
+    if (!(Test-Path -Path $baseDir)) {
+        New-Item -ItemType Directory -Path $baseDir | Out-Null
+    }
+    if (!(Test-Path -Path $aufträgeDir)) {
+        New-Item -ItemType Directory -Path $aufträgeDir | Out-Null
+    }
+    if (!(Test-Path -Path $präsentationenDir)) {
+        New-Item -ItemType Directory -Path $präsentationenDir | Out-Null
+    }
+    if (!(Test-Path -Path $lösungenDir)) {
+        New-Item -ItemType Directory -Path $lösungenDir | Out-Null
+    }
+    if (!(Test-Path -Path $weitereDateienDir)) {
+        New-Item -ItemType Directory -Path $weitereDateienDir | Out-Null
+    }
 
+    # Check the file extension and move it to the appropriate destination
+    switch ($file.Extension) {
+        '.docx' {
+            if ($file.Name -like '*_L.docx') {
+                Move-Item -Path $file.FullName -Destination $lösungenDir
+                $destinationFolder = $lösungenDir
+            } else {
+                Move-Item -Path $file.FullName -Destination $aufträgeDir
+                $destinationFolder = $aufträgeDir
+            }
+        }
+        '.pptx' {
+            Move-Item -Path $file.FullName -Destination $präsentationenDir
+            $destinationFolder = $präsentationenDir
+        }
+        default {
+            Move-Item -Path $file.FullName -Destination $weitereDateienDir
+            $destinationFolder = $weitereDateienDir
+        }
+    }
+```
+Im schritt: ```#Folder names and variables for the next step``` werden die Paths erstellt und darunter die dazugehörigen Ordner, falls diese nicht vorhanden sind.
+
+Danach wird die Datei geprüft auf die Endung, welches dann die Entscheidung beinflusst, in welchen Ordner die Datei kommt. Als Ordner gibt es die Optionen: Aufträge, Lösungen, Präsentationen und Weitere Dateien. Wie man oben sieht, kommen ```.docx``` Dateien in den *Aufträge* Ordner, wenn die .docx mit ```_L.docx``` aufhört, dann kommen diese in den *Lösungen* Ordner. Wenn die Datei ```.pptx``` heisst kommt diese in den *Präsentationen* Ordner und alles restliche kommt in den *Weitere Dateien* Ordner.
 
 
 ```ps

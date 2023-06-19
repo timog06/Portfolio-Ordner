@@ -1,13 +1,18 @@
 # Datei-Sortierungs Skript
-
+Ich habe mir gedacht, dass es sehr praktisch wäre ein Skript zu haben, welches mir automatisch Dateien einsortiert.
 
 ## Inhalt
+
 
 ## Bilder und Code fetzen:
 
 
-## Was habe ich in diesem Auftrag gelernt?
 
+
+
+
+
+## Was habe ich in diesem Auftrag gelernt?
 
 
 ## Was das Programm zeigt:

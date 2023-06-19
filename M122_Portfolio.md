@@ -19,7 +19,10 @@ Wie gesagt geht es in diesem Projekt darum
 Hier habe ich noch einen kleinen Zusatz gemacht, in dem es eine Linie erstellt für jede einsortierte Datei, in der Datei fileMovement.log.
 
 ## Was habe ich in diesem Auftrag gelernt?
-
+Ich habe gelernt, wie man Dateien, mit Powershell Befehlen, bewegt. Dies geht mit dem Behfel Move-Item. Ich habe dies so benutzt:
+```ps
+ Move-Item -Path <Dateiname> -Destination <Zielort>
+```
 
 ## Was das Programm zeigt
 Das Programm macht keine Ausgaben, nur eine Log Message für jede einsortierte Datei.

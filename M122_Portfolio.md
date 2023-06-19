@@ -1,29 +1,29 @@
-Datei-Sortierungs Skript
+# Datei-Sortierungs Skript
 
 
-Inhalt
+## Inhalt
 
-Bilder und Code fetzen:
-
-
-Was habe ich in diesem Auftrag gelernt?
+## Bilder und Code fetzen:
 
 
-
-Was das Programm zeigt:
-
-
-Selbstreflexion
+## Was habe ich in diesem Auftrag gelernt?
 
 
-Reflexion
-Was habe ich gut gemacht?
+
+## Was das Programm zeigt:
+
+
+## Selbstreflexion
+
+
+## Reflexion
+### Was habe ich gut gemacht?
 
 -Ich konnte mich gut konzentrieren während dem Arbeiten, weil ich ein konkretes Ziel vor Augen hatte.
 
 -Ich habe meine Idee immer wieder ein bisschen erweitert, wenn ich fertig war, mit dem Teil, den ich mir vorgenommen hatte.
 
-Was habe ich weniger gut gemacht?
+### Was habe ich weniger gut gemacht?
 
 -Ich habe sehr lange überlegt, was ich machen soll und habe deswegen Zeit verloren.
 

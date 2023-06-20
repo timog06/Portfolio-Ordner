@@ -1,5 +1,5 @@
 # Datei-Sortierungs Skript
-$In diesem Projekt geht es darum ein Skript zu erstellen, welches etwas auf dem Laptop automatisiert. Also habe ich mir gedacht, dass es sehr praktisch wäre ein Skript zu haben, welches mir automatisch die Dateien einsortiert, die ich von Moodle herunterlade. Dies bedeutet, dass das Skript die gewollten Dateien erkennt, in einen bestimmten Ordner sortiert und dies natürlich ohne Fehler.
+In diesem Projekt geht es darum ein Skript zu erstellen, welches etwas auf dem Laptop automatisiert. Also habe ich mir gedacht, dass es sehr praktisch wäre ein Skript zu haben, welches mir automatisch die Dateien einsortiert, die ich von Moodle herunterlade. Dies bedeutet, dass das Skript die gewollten Dateien erkennt, in einen bestimmten Ordner sortiert und dies natürlich ohne Fehler.
 
 ## Inhalt
 Wie gesagt habe ich in diesem Projekt einen Datei-Sortier Skript gemacht. Natürlich musste ich mich zuerst informieren, um überhaupt zu wissen, wie ich das mache. Das erste, welches ich gemacht habe, war GPT zu fragen, wie er es machen würde. Da habe ich gesehen, welche Befehle er benutzt. Um dies dann zu erweitern habe ich im Internet nachgeschaut wie dies geht.
@@ -65,7 +65,7 @@ Ich habe dan den Code erweitert, indem ich einen Filter einprogramiere, der nur 
 $files = Get-ChildItem -Path $downloadPath -File | Where-Object { $_.Name -like 'LA_*' -or $_.Name -like 'PR_*' -or $_.Name -like 'BL_*'}
 ```
 
-Dateien, die zum Lernattelier gehören so einsortiert, wie es sein soll.
+Dateien, die zum Lernattelier gehören so einsortiert, wie es sein soll. Beim unteren Code gibt es noch etwas, und zwar die**M-Ordner** dies sind die Modul Ordner, in denen die Ordner Aufträge, Lösungen, usw. drinn sind. Diese Ordner werden bestimmt mit der Nummer, die nach LA_ kommt.
 ```ps
 # Extract the number after "LA_" from the file name
     [int]$number = ($file.Name -split '_')[1]

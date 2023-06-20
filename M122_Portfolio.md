@@ -83,14 +83,36 @@ Dateien, die zum Lernattelier gehören so einsortiert, wie es sein soll.
 
 
 
-
+Hier habe ich noch einen kleinen Zusatz gemacht, in dem es eine Linie erstellt für jede einsortierte Datei, in der Datei fileMovement.log.
 ```ps
  $logFile = "C:\Users\timog\OneDrive - BBBaden\M122\GoedertierTimo_LB_M122_2021-V3\fileMovement.log"
  $currentDate = Get-Date -Format "dd.MM.yyyy"
  $logMessage = "$currentDate - File $($file.Name) was moved to $destinationFolder"
  Add-Content -Path $logFile -Value $logMessage
 ```
-Hier habe ich noch einen kleinen Zusatz gemacht, in dem es eine Linie erstellt für jede einsortierte Datei, in der Datei fileMovement.log.
+
+Die Variabel ```$destinationFolder``` wird bestimmt, wie die Datei verschoben wird. Als Beispiel, wenn die Datei so heisst: ```LA_122_1771_Dokumentation.pptx```, dann kommt die Datei, wie man im unteren Code sieht, in den *Präsentationen* Ordner, des **Moduls 122**.
+```ps
+switch ($file.Extension) {
+        '.docx' {
+            if ($file.Name -like '*_L.docx') {
+                Move-Item -Path $file.FullName -Destination $lösungenDir
+                $destinationFolder = $lösungenDir
+            } else {
+                Move-Item -Path $file.FullName -Destination $aufträgeDir
+                $destinationFolder = $aufträgeDir
+            }
+        }
+        '.pptx' {
+            Move-Item -Path $file.FullName -Destination $präsentationenDir
+            $destinationFolder = $präsentationenDir
+        }
+        default {
+            Move-Item -Path $file.FullName -Destination $weitereDateienDir
+            $destinationFolder = $weitereDateienDir
+        }
+    }
+```
 
 ## Was habe ich in diesem Auftrag gelernt?
 Ich habe gelernt, wie man Dateien, mit Powershell Befehlen, bewegt. Dies geht mit dem Behfel Move-Item. Ich habe dies so benutzt:

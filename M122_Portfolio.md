@@ -117,7 +117,7 @@ switch ($file.Extension) {
 ## Was habe ich in diesem Auftrag gelernt?
 Ich habe gelernt, wie man Dateien, mit Powershell Befehlen, bewegt. Dies geht mit dem Behfel Move-Item. Ich habe dies so benutzt:
 ```ps
- Move-Item -Path <Dateiname> -Destination <Zielort>
+ Move-Item -Path [Dateiname] -Destination [Zielort]
 ```
 ### Finales Produkt:
 ```ps

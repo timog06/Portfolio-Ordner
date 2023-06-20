@@ -189,14 +189,15 @@ foreach ($file in $files) {
     # Log the file movement
     $logFile = "C:\Users\timog\OneDrive - BBBaden\M122\GoedertierTimo_LB_M122_2021-V3\fileMovement.log"
     $currentDate = Get-Date -Format "dd.MM.yyyy"
-    $logMessage = "$currentDate - File $($file.Name) was moved to $destinationFolder"
+    $logMessage = "$currentDate - $($file.Name) was moved to $destinationFolder"
     Add-Content -Path $logFile -Value $logMessage
 }
 
 ```
 
 ## Was das Programm zeigt
-Das Programm macht keine Ausgaben, nur eine Log Message für jede einsortierte Datei.
+Das Programm macht keine Ausgaben, nur eine Log Message für jede einsortierte Datei. Diese Log Message, kommt in die Datei fileMovement.log und kommt vor in diesem Style: ```DD.MM.YYYY - [filename] was moved to [foldername]```
+Hier DD ist der Tag, MM, der Monat und YYYY das Jahr.
 
 ## Selbstreflexion
 Ich hatte am Anfang ein Problem, da ich nicht wusste, was ich machen sollte. Als ich dann aber eine Idee hatte, ging alles schnell, da ich ein konkretes Ziel vor Augen hatte. Während dem Programmieren hat mit GPT auch viel geholfen, obwohl es am Anfang ein bisschen zu viel war. Während dem Arbeiten konnte ich mich auch gut konzentrieren und war sehr wenig abgelenkt, vorallem im Vergleich zu vorherigen Projekten. 

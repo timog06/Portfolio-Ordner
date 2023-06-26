@@ -22,6 +22,15 @@ Ich habe gelernt, wie man Dateien, mit Powershell Befehlen, bewegt. Dies geht mi
 ```
 ### Finales Produkt:
 ```ps
+<#
+Scriptname: GoedertierTimo_Skript.ps1
+Author: Timo Goedertier
+Date: 26-06-2023
+Version: 4.1
+Description: Sortiert heruntergeladene Dateien von Moodle
+#> 
+
+
 # Der Zielordner, in dem die Modul Ordner(M-Ordner) drin sind, wird bestimmt
 $destinationPath = "C:\Users\timog\OneDrive - BBBaden"
 $downloadPath = "C:\Users\timog\Downloads"
@@ -31,11 +40,11 @@ $logFolder = "C:\Users\timog\OneDrive - BBBaden\M122\GoedertierTimo_LB_M122_2021
 # Das Where-Object wurde von GPT erstellt
 $files = Get-ChildItem -Path $downloadPath -File | Where-Object { $_.Name -like 'LA_*' -or $_.Name -like 'PR_*' -or $_.Name -like 'BL_*' -or $_.Name -like 'MLP_*' }
 
-
-
 # Für jede ausgewählte Datei wird dies gemacht
 foreach ($file in $files) {
+    try {
         # Extrahiere die Nummer nach LA_/PR_/BL_
+        # Hier wurde mit GPT gearbeitet und mit der Hilfe von Herr A. Schmid
         [int]$number = ($file.BaseName -split '_')[1]
         # Überprüfe, ob die Nummer größer als 1000 ist
         if ($number -gt 1000) {
@@ -47,7 +56,15 @@ foreach ($file in $files) {
             # Wenn nicht geht es weiter in den Modul Ordner
             $baseDir = Join-Path -Path $destinationPath -ChildPath "M$number"
         }
-
+    }
+    catch {
+        # Protokolliere den Fehler und überspringe die Datei
+        $logFile = Join-Path -Path $logFolder -ChildPath "fileMovement.log"
+        $currentDate = Get-Date -Format "dd.MM.yyyy"
+        $logMessage = "$currentDate - $($file.Name) failed to be processed and was skipped"
+        Add-Content -Path $logFile -Value $logMessage
+        continue
+    }
     # Ordner Namen und Variabeln für den nächsten Schritt
     # Teilweise wurde dieser Abschnitt mit GPT gemacht
     $auftrageDir = Join-Path -Path $baseDir -ChildPath "Aufträge"

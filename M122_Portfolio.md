@@ -6,6 +6,15 @@ Wie gesagt habe ich in diesem Projekt einen Datei-Sortier Skript gemacht. Natür
 
 Was mir sehr in diesem Projekt geholfen hat, ist das cmdlet ```Where-Object```, da ich den Download Ordner, als Ordner ausgewählt habe, von wo die Dateien genommen werden. Dadurch konnte ich einfach die einzelnen Dateien auswählen, die ich möchte und wenn ich weitere hinzufügen möchte, geht dies auch sehr einfach.
 
+```ps
+$files = Get-ChildItem -Path $downloadPath -File |Where-Object { $_.Name -like 'LA_*' -or $_.Name -like 'PR_*' -or $_.Name -like 'BL_*' -or $_.Name -like 'MLP_*' }
+```
+Dies ist der Code dafür und wenn ich, wie gesagt, etwas hinzufügen möchte, muss ich nur dies eingeben:
+
+```ps
+-or $_.Name -like '<neue Kondition>'
+```
+
 ## Was habe ich in diesem Auftrag gelernt?
 Ich habe gelernt, wie man Dateien, mit Powershell Befehlen, bewegt. Dies geht mit dem Behfel Move-Item. Ich habe dies so benutzt:
 ```ps

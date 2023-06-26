@@ -4,7 +4,7 @@ In diesem Projekt geht es darum ein Skript zu erstellen, welches etwas auf dem L
 ## Inhalt
 Wie gesagt habe ich in diesem Projekt einen Datei-Sortier Skript gemacht. Natürlich musste ich mich zuerst informieren, um überhaupt zu wissen, wie ich das mache. Das erste, welches ich gemacht habe, war GPT zu fragen, wie er es machen würde. Da habe ich gesehen, welche Befehle er benutzt. Um dies dann zu erweitern habe ich im Internet nachgeschaut wie dies geht.
 
-
+Was mir sehr in diesem Projekt geholfen hat, ist das cmdlet ```Where-Object```, da ich den Download Ordner, als Ordner ausgewählt habe, von wo die Dateien genommen werden. Dadurch konnte ich einfach die einzelnen Dateien auswählen, die ich möchte und wenn ich weitere hinzufügen möchte, geht dies auch sehr einfach.
 
 ## Was habe ich in diesem Auftrag gelernt?
 Ich habe gelernt, wie man Dateien, mit Powershell Befehlen, bewegt. Dies geht mit dem Behfel Move-Item. Ich habe dies so benutzt:

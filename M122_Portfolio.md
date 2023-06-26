@@ -12,7 +12,7 @@ $files = Get-ChildItem -Path $downloadPath -File |Where-Object { $_.Name -like '
 Dies ist der Code dafür und wenn ich, wie gesagt, etwas hinzufügen möchte, muss ich nur dies eingeben:
 
 ```ps
--or $_.Name -like '<neue Kondition>'
+-or $_.Name -like '[neue Kondition]'
 ```
 
 ## Was habe ich in diesem Auftrag gelernt?

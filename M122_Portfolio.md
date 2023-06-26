@@ -4,115 +4,7 @@ In diesem Projekt geht es darum ein Skript zu erstellen, welches etwas auf dem L
 ## Inhalt
 Wie gesagt habe ich in diesem Projekt einen Datei-Sortier Skript gemacht. Natürlich musste ich mich zuerst informieren, um überhaupt zu wissen, wie ich das mache. Das erste, welches ich gemacht habe, war GPT zu fragen, wie er es machen würde. Da habe ich gesehen, welche Befehle er benutzt. Um dies dann zu erweitern habe ich im Internet nachgeschaut wie dies geht.
 
-Als ich dann den ersten Teil fertig hatte sah es so aus:
-```ps
-# Define the destination folder
-$destinationPath = "C:\Users\timog\OneDrive - BBBaden"
 
-# Do it for each file
-foreach ($file in $files) {
-
-    #Folder names and variables for the next step
-    $aufträgeDir = Join-Path -Path $baseDir -ChildPath "Aufträge"
-    $präsentationenDir = Join-Path -Path $baseDir -ChildPath "Präsentationen"
-    $lösungenDir = Join-Path -Path $baseDir -ChildPath "Lösungen"
-    $weitereDateienDir = Join-Path -Path $baseDir -ChildPath "Weitere Dateien"
-
-    # Create folders if they don't exist
-    if (!(Test-Path -Path $baseDir)) {
-        New-Item -ItemType Directory -Path $baseDir | Out-Null
-    }
-    if (!(Test-Path -Path $aufträgeDir)) {
-        New-Item -ItemType Directory -Path $aufträgeDir | Out-Null
-    }
-    if (!(Test-Path -Path $präsentationenDir)) {
-        New-Item -ItemType Directory -Path $präsentationenDir | Out-Null
-    }
-    if (!(Test-Path -Path $lösungenDir)) {
-        New-Item -ItemType Directory -Path $lösungenDir | Out-Null
-    }
-    if (!(Test-Path -Path $weitereDateienDir)) {
-        New-Item -ItemType Directory -Path $weitereDateienDir | Out-Null
-    }
-
-    # Check the file extension and move it to the appropriate destination
-    switch ($file.Extension) {
-        '.docx' {
-            if ($file.Name -like '*_L.docx') {
-                Move-Item -Path $file.FullName -Destination $lösungenDir
-                $destinationFolder = $lösungenDir
-            } else {
-                Move-Item -Path $file.FullName -Destination $aufträgeDir
-                $destinationFolder = $aufträgeDir
-            }
-        }
-        '.pptx' {
-            Move-Item -Path $file.FullName -Destination $präsentationenDir
-            $destinationFolder = $präsentationenDir
-        }
-        default {
-            Move-Item -Path $file.FullName -Destination $weitereDateienDir
-            $destinationFolder = $weitereDateienDir
-        }
-    }
-```
-Im schritt: ```#Folder names and variables for the next step``` werden die Paths erstellt und darunter die dazugehörigen Ordner, falls diese nicht vorhanden sind.
-
-Danach wird die Datei geprüft auf die Endung, welches dann die Entscheidung beinflusst, in welchen Ordner die Datei kommt. Als Ordner gibt es die Optionen: Aufträge, Lösungen, Präsentationen und Weitere Dateien. Wie man oben sieht, kommen ```.docx``` Dateien in den *Aufträge* Ordner, wenn die .docx mit ```_L.docx``` aufhört, dann kommen diese in den *Lösungen* Ordner. Wenn die Datei ```.pptx``` heisst kommt diese in den *Präsentationen* Ordner und alles restliche kommt in den *Weitere Dateien* Ordner.
-
-Ich habe dan den Code erweitert, indem ich einen Filter einprogramiere, der nur gewisse Dateien auswählt und 
-```ps
-$files = Get-ChildItem -Path $downloadPath -File | Where-Object { $_.Name -like 'LA_*' -or $_.Name -like 'PR_*' -or $_.Name -like 'BL_*'}
-```
-
-Dateien, die zum Lernattelier gehören so einsortiert, wie es sein soll. Beim unteren Code gibt es noch etwas, und zwar die**M-Ordner** dies sind die Modul Ordner, in denen die Ordner Aufträge, Lösungen, usw. drinn sind. Diese Ordner werden bestimmt mit der Nummer, die nach LA_ kommt.
-```ps
-# Extract the number after "LA_" from the file name
-    [int]$number = ($file.Name -split '_')[1]
-    # Check if the number is greater than 1000
-    if ($number -gt 1000) {
-        # Define the base directory for "IMS Lernattelier"
-        $baseDir = Join-Path -Path $destinationPath -ChildPath "IMS Lernattelier"
-        $baseDir = Join-Path -Path $baseDir -ChildPath "M$number"
-    } else {
-        # Define the base directory for "M" folders
-        $baseDir = Join-Path -Path $destinationPath -ChildPath "M$number"
-    }
-```
-
-
-
-
-Hier habe ich noch einen kleinen Zusatz gemacht, in dem es eine Linie erstellt für jede einsortierte Datei, in der Datei fileMovement.log.
-```ps
- $logFile = "C:\Users\timog\OneDrive - BBBaden\M122\GoedertierTimo_LB_M122_2021-V3\fileMovement.log"
- $currentDate = Get-Date -Format "dd.MM.yyyy"
- $logMessage = "$currentDate - File $($file.Name) was moved to $destinationFolder"
- Add-Content -Path $logFile -Value $logMessage
-```
-
-Die Variabel ```$destinationFolder``` wird bestimmt, wie die Datei verschoben wird. Als Beispiel, wenn die Datei so heisst: ```LA_122_1771_Dokumentation.pptx```, dann kommt die Datei, wie man im unteren Code sieht, in den *Präsentationen* Ordner, des **Moduls 122**.
-```ps
-switch ($file.Extension) {
-        '.docx' {
-            if ($file.Name -like '*_L.docx') {
-                Move-Item -Path $file.FullName -Destination $lösungenDir
-                $destinationFolder = $lösungenDir
-            } else {
-                Move-Item -Path $file.FullName -Destination $aufträgeDir
-                $destinationFolder = $aufträgeDir
-            }
-        }
-        '.pptx' {
-            Move-Item -Path $file.FullName -Destination $präsentationenDir
-            $destinationFolder = $präsentationenDir
-        }
-        default {
-            Move-Item -Path $file.FullName -Destination $weitereDateienDir
-            $destinationFolder = $weitereDateienDir
-        }
-    }
-```
 
 ## Was habe ich in diesem Auftrag gelernt?
 Ich habe gelernt, wie man Dateien, mit Powershell Befehlen, bewegt. Dies geht mit dem Behfel Move-Item. Ich habe dies so benutzt:
@@ -121,64 +13,82 @@ Ich habe gelernt, wie man Dateien, mit Powershell Befehlen, bewegt. Dies geht mi
 ```
 ### Finales Produkt:
 ```ps
-# Define the destination folder
+# Der Zielordner, in dem die Modul Ordner(M-Ordner) drin sind, wird bestimmt
 $destinationPath = "C:\Users\timog\OneDrive - BBBaden"
 $downloadPath = "C:\Users\timog\Downloads"
+$logFolder = "C:\Users\timog\OneDrive - BBBaden\M122\GoedertierTimo_LB_M122_2021-V3"
 
-# Define the files
-$files = Get-ChildItem -Path $downloadPath -File | Where-Object { $_.Name -like 'LA_*' -or $_.Name -like 'PR_*' -or $_.Name -like 'BL_*'}
+# Dateien werden bestimmt
+# Das Where-Object wurde von GPT erstellt
+$files = Get-ChildItem -Path $downloadPath -File | Where-Object { $_.Name -like 'LA_*' -or $_.Name -like 'PR_*' -or $_.Name -like 'BL_*' -or $_.Name -like 'MLP_*' }
 
-# Do it for each file
+
+
+# Für jede ausgewählte Datei wird dies gemacht
 foreach ($file in $files) {
-    # Extract the number after "LA_" from the file name
-    [int]$number = ($file.Name -split '_')[1]
-    # Check if the number is greater than 1000
-    if ($number -gt 1000) {
-        # Define the base directory for "IMS Lernattelier"
-        $baseDir = Join-Path -Path $destinationPath -ChildPath "IMS Lernattelier"
-        $baseDir = Join-Path -Path $baseDir -ChildPath "M$number"
-    } else {
-        # Define the base directory for "M" folders
-        $baseDir = Join-Path -Path $destinationPath -ChildPath "M$number"
-    }
+        # Extrahiere die Nummer nach LA_/PR_/BL_
+        [int]$number = ($file.BaseName -split '_')[1]
+        # Überprüfe, ob die Nummer größer als 1000 ist
+        if ($number -gt 1000) {
+            # Wenn die Nummer größer ist, kommt sie in den IMS Lernattelier Ordner
+            $baseDir = Join-Path -Path $destinationPath -ChildPath "IMS Lernattelier"
+            $baseDir = Join-Path -Path $baseDir -ChildPath "M$number"
+        }
+        else {
+            # Wenn nicht geht es weiter in den Modul Ordner
+            $baseDir = Join-Path -Path $destinationPath -ChildPath "M$number"
+        }
 
-    #Folder names and variables for the next step
-    $aufträgeDir = Join-Path -Path $baseDir -ChildPath "Aufträge"
-    $präsentationenDir = Join-Path -Path $baseDir -ChildPath "Präsentationen"
-    $lösungenDir = Join-Path -Path $baseDir -ChildPath "Lösungen"
+    # Ordner Namen und Variabeln für den nächsten Schritt
+    # Teilweise wurde dieser Abschnitt mit GPT gemacht
+    $auftrageDir = Join-Path -Path $baseDir -ChildPath "Aufträge"
+    $prasentationenDir = Join-Path -Path $baseDir -ChildPath "Präsentationen"
+    $losungenDir = Join-Path -Path $baseDir -ChildPath "Lösungen"
     $weitereDateienDir = Join-Path -Path $baseDir -ChildPath "Weitere Dateien"
 
-    # Create folders if they don't exist
+    # Erstelle die obigen Ordner, wenn sie nicht existieren
     if (!(Test-Path -Path $baseDir)) {
         New-Item -ItemType Directory -Path $baseDir | Out-Null
     }
-    if (!(Test-Path -Path $aufträgeDir)) {
-        New-Item -ItemType Directory -Path $aufträgeDir | Out-Null
+    if (!(Test-Path -Path $auftrageDir)) {
+        New-Item -ItemType Directory -Path $auftrageDir | Out-Null
     }
-    if (!(Test-Path -Path $präsentationenDir)) {
-        New-Item -ItemType Directory -Path $präsentationenDir | Out-Null
+    if (!(Test-Path -Path $prasentationenDir)) {
+        New-Item -ItemType Directory -Path $prasentationenDir | Out-Null
     }
-    if (!(Test-Path -Path $lösungenDir)) {
-        New-Item -ItemType Directory -Path $lösungenDir | Out-Null
+    if (!(Test-Path -Path $losungenDir)) {
+        New-Item -ItemType Directory -Path $losungenDir | Out-Null
     }
     if (!(Test-Path -Path $weitereDateienDir)) {
         New-Item -ItemType Directory -Path $weitereDateienDir | Out-Null
     }
 
-    # Check the file extension and move it to the appropriate destination
+    # Überprüfe die Endungen der Dateiei und sortiere diese nach den Kriterien ein
     switch ($file.Extension) {
         '.docx' {
             if ($file.Name -like '*_L.docx') {
-                Move-Item -Path $file.FullName -Destination $lösungenDir
-                $destinationFolder = $lösungenDir
-            } else {
-                Move-Item -Path $file.FullName -Destination $aufträgeDir
-                $destinationFolder = $aufträgeDir
+                Move-Item -Path $file.FullName -Destination $losungenDir
+                $destinationFolder = $losungenDir
+            }
+            else {
+                Move-Item -Path $file.FullName -Destination $auftrageDir
+                $destinationFolder = $auftrageDir
             }
         }
         '.pptx' {
-            Move-Item -Path $file.FullName -Destination $präsentationenDir
-            $destinationFolder = $präsentationenDir
+            Move-Item -Path $file.FullName -Destination $prasentationenDir
+            $destinationFolder = $prasentationenDir
+        }
+        '.xlsx' {
+            if ($file.Name -like 'MLP_*') {
+                Move-Item -Path $file.FullName -Destination $baseDir
+                $destinationFolder = $baseDir
+            }
+            else {
+                # Wenn die .xlsx-Datei nicht mit "MLP_" beginnt, führe die Standardaktion aus
+                Move-Item -Path $file.FullName -Destination $weitereDateienDir
+                $destinationFolder = $weitereDateienDir
+            }
         }
         default {
             Move-Item -Path $file.FullName -Destination $weitereDateienDir
@@ -186,13 +96,12 @@ foreach ($file in $files) {
         }
     }
 
-    # Log the file movement
-    $logFile = "C:\Users\timog\OneDrive - BBBaden\M122\GoedertierTimo_LB_M122_2021-V3\fileMovement.log"
+    # Erstelle ein Protokoll für alle verschobenen Dateien
+    $logFile = Join-Path -Path $logFolder -ChildPath "fileMovement.log"
     $currentDate = Get-Date -Format "dd.MM.yyyy"
     $logMessage = "$currentDate - $($file.Name) was moved to $destinationFolder"
     Add-Content -Path $logFile -Value $logMessage
 }
-
 ```
 
 ## Was das Programm zeigt
